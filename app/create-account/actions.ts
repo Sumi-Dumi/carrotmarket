@@ -1,5 +1,6 @@
 "use server";
 
+import { PASSWORD_REGEX } from "@/lib/constants";
 import { z } from "zod";
 
 const checkUsername = (username: string) => !username.includes("fuck");
@@ -12,9 +13,7 @@ const checkPasswords = ({
   confirm_password: string;
 }) => password === confirm_password;
 
-const passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/
-);
+
 
 const formSchema = z
   .object({
@@ -33,7 +32,7 @@ const formSchema = z
       .string()
       .min(10)
       .regex(
-        passwordRegex,
+        PASSWORD_REGEX,
         "Passwords must contain at least one UPPERCASE, lowercase, number and special characters #?!@$%^&*-"
       ),
     confirm_password: z.string().min(10),
